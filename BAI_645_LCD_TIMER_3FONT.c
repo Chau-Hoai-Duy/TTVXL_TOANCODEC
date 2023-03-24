@@ -61,17 +61,17 @@ void kt_nutnhan()
          if(cd==1) 
          {
             giay--;
-            if(giay<=0) giay=59;
+            if(giay<0) giay=59;
          }
          else if(cd==2) 
          {
             phut--;
-            if(phut<=0) phut=59;
+            if(phut<0) phut=59;
          }
          else if(cd==3) 
          {
             gio--;
-            if(gio<=0) gio=13;
+            if(gio<=0) gio=12;
          }
       }
 }
@@ -102,6 +102,7 @@ void main()
                }
             }
         }
+        /***************************************khong chinh gi***************************/
         if(cd==0)
         {
            if(font==0)
@@ -132,66 +133,204 @@ void main()
               lcd_write_4x3_num(giay%10,17);
            }
         }
+        /***********************************CHINH GIO***************************/
         if(cd==3)
         {
             if(font==0)
             {
                lcd_goto(8,0);
                printf(lcd_data,"%02u",phut);
+               lcd_goto(11,0);
+               printf(lcd_data,"%02u",giay);
             }
             if(font==1)
             {
                lcd_write_2x3_num(phut/10%10,7,1);
                lcd_write_2x3_num(phut%10,10,1);
+               lcd_write_2x3_num(giay/10%10,14,1);
+               lcd_write_2x3_num(giay%10,17,1);
             }
-            if(k<1000)
+            if(font==2)
             {
-               if(font==00)
+               lcd_write_4x3_num(phut/10%10,7);
+               lcd_write_4x3_num(phut%10,10);
+               lcd_write_4x3_num(giay/10%10,14);
+               lcd_write_4x3_num(giay%10,17);
+            }
+            if(k<100)
+            {
+               if(font==0)
                {
                   lcd_goto(5,0);
                   lcd_data("  ");
                   k++;
                }
+               if(font==1)
+               {
+                  lcd_goto(0,1);
+                  lcd_data("      ");
+                  lcd_goto(0,2);
+                  lcd_data("      ");
+                  k++;
+               }
+               if(font==2)
+               {
+                  lcd_goto(0,0);
+                  lcd_data("      ");
+                  lcd_goto(0,1);
+                  lcd_data("      ");
+                  lcd_goto(0,2);
+                  lcd_data("      ");
+                  lcd_goto(0,3);
+                  lcd_data("      ");
+                  k++;
+               }
             }
-            else if(k<2000)
+            else if(k<200)
             {
-               lcd_goto(5,0);
-               printf(lcd_data,"%02u",gio);
-               k++;
+               if(font==0)
+               {
+                  lcd_goto(5,0);
+                  printf(lcd_data,"%02u",gio);
+                  k++;
+               }
+               if(font==1)
+               {
+                  lcd_write_2x3_num(gio/10%10,0,1);
+                  lcd_write_2x3_num(gio%10,3,1);
+                  k++;
+               }
+               if(font==2)
+               {
+                  lcd_write_4x3_num(gio/10%10,0);
+                  lcd_write_4x3_num(gio%10,3);
+                  k++;
+               }
             }
             else k=0;
         }
+        /*****************************CHINH PHUT*****************************************/
         else if(cd==2)
         {
-            lcd_goto(11,0);
-            printf(lcd_data,"%02u",giay);
-            if(k<1000)
-            {
-               lcd_goto(8,0);
-               lcd_data("  ");
-               k++;
-            }
-            else if(k<2000)
-            {
-               lcd_goto(8,0);
-               printf(lcd_data,"%02u",phut);
-               k++;
-            }
-            else k=0;
-        }
-        else if(cd==1)
-        {
-            if(k<1000)
-            {
-               lcd_goto(11,0);
-               lcd_data("  ");
-               k++;
-            }
-            else if(k<2000)
+            if(font==0)
             {
                lcd_goto(11,0);
                printf(lcd_data,"%02u",giay);
-               k++;
+            }
+            if(font==1)
+            {
+               lcd_write_2x3_num(giay/10%10,14,1);
+               lcd_write_2x3_num(giay%10,17,1);
+            }
+            if(font==2)
+            {
+               lcd_write_4x3_num(giay/10%10,14);
+               lcd_write_4x3_num(giay%10,17);
+            }
+            if(k<100)
+            {
+               if(font==0)
+               {
+                  lcd_goto(8,0);
+                  lcd_data("  ");
+                  k++;
+               }
+               if(font==1)
+               {
+                  lcd_goto(7,1);
+                  lcd_data("      ");
+                  lcd_goto(7,2);
+                  lcd_data("      ");
+                  k++;
+               }
+               if(font==2)
+               {
+                  lcd_goto(7,0);
+                  lcd_data("      ");
+                  lcd_goto(7,1);
+                  lcd_data("      ");
+                  lcd_goto(7,2);
+                  lcd_data("      ");
+                  lcd_goto(7,3);
+                  lcd_data("      ");
+                  k++;
+               }
+            }
+            else if(k<200)
+            {
+               if(font==0)
+               {
+                  lcd_goto(8,0);
+                  printf(lcd_data,"%02u",phut);
+                  k++;
+               }
+               if(font==1)
+               {
+                  lcd_write_2x3_num(phut/10%10,7,1);
+                  lcd_write_2x3_num(phut%10,10,1);
+                  k++;
+               }
+               if(font==2)
+               {
+                  lcd_write_4x3_num(phut/10%10,7);
+                  lcd_write_4x3_num(phut%10,10);
+                  k++;
+               }
+            }
+            else k=0;
+        }
+        /***************************CHINH GIAY*************************************/
+        else if(cd==1)
+        {
+            if(k<100)
+            {
+               if(font==0)
+               {
+                  lcd_goto(11,0);
+                  lcd_data("  ");
+                  k++;
+               }
+               if(font==1)
+               {
+                  lcd_goto(14,1);
+                  lcd_data("      ");
+                  lcd_goto(14,2);
+                  lcd_data("      ");
+                  k++;
+               }
+               if(font==2)
+               {
+                  lcd_goto(14,0);
+                  lcd_data("      ");
+                  lcd_goto(14,1);
+                  lcd_data("      ");
+                  lcd_goto(14,2);
+                  lcd_data("      ");
+                  lcd_goto(14,3);
+                  lcd_data("      ");
+                  k++;
+               }
+            }
+            else if(k<200)
+            {
+               if(font==0)
+               {
+                  lcd_goto(11,0);
+                  printf(lcd_data,"%02u",giay);
+                  k++;
+               }
+               if(font==1)
+               {
+                  lcd_write_2x3_num(giay/10%10,14,1);
+                  lcd_write_2x3_num(giay%10,17,1);
+                  k++;
+               }
+               if(font==2)
+               {
+                  lcd_write_4x3_num(giay/10%10,14);
+                  lcd_write_4x3_num(giay%10,17);
+                  k++;
+               }
             }
             else k=0;
         }

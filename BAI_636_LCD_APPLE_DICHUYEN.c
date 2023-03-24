@@ -12,7 +12,7 @@ void main()
    lcd_data("BIEU TUONG APPLE");
    while(true)
    {
-     for(i=0;i<=18;i++)
+     for(i=0;i<=14;i++)
      {
       lcd_goto(i,1);
       lcd_data(' ');
