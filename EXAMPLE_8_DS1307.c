@@ -28,7 +28,7 @@
      . DS1307_STRUCT t la bien luu thoi gian can cai dat
      
 *********************************** Chuong trinh *************************************************************/
-//#define   BOARD     D501
+#define   BOARD     D501
 #include<tv_boards.c> 
 #include<tv_glcd.c>
 #include<tv_ds1307.c>

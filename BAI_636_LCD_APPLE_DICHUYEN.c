@@ -12,31 +12,33 @@ void main()
    lcd_data("BIEU TUONG APPLE");
    while(true)
    {
-     for(i=0;i<=14;i++)
+     for(i=0;i<=18;i++)
      {
       lcd_goto(i,1);
-      lcd_data(' ');
       lcd_data(0);
       lcd_data(1);
-      lcd_data(' ');
       lcd_goto(i,2);
-      lcd_data(' ');
       lcd_data(2);
       lcd_data(3);
-      lcd_data(' ');
-      delay_ms(500);
+      delay_ms(300);
+      lcd_goto(0,1);
+      lcd_data("                    ");
+      lcd_goto(0,2);
+      lcd_data("                    ");
      }
-     for(i=0;i<=19;i++)
+     for(i=18;i>0;i--)
      {
-      lcd_goto(19-i,1);
+      lcd_goto(i,1);
       lcd_data(0);
       lcd_data(1);
-      lcd_data(' ');
-      lcd_goto(19-i,2);
+      lcd_goto(i,2);
       lcd_data(2);
       lcd_data(3);
-      lcd_data(' ');
-      delay_ms(500);
+      delay_ms(300);
+      lcd_goto(0,1);
+      lcd_data("                    ");
+      lcd_goto(0,2);
+      lcd_data("                    ");
      }
    }
 }

@@ -1,4 +1,4 @@
-//#define   BOARD     D501 
+#define   BOARD     D501 
 #include<tv_boards.c>
 #include<tv_key4x4.c>
 unsigned int8 cd=1,cdold=1;

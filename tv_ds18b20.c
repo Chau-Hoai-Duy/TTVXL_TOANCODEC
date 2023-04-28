@@ -15,48 +15,51 @@ result DS18B20_SEARCH_ROM()
    int1
       firstrom = TRUE,
       done = FALSE;
-   do
+   if(touch_present())
    {
-      last_desc_pos = desc_marker;
-      reset_pulse();
-      touch_write_byte(0xF0);
-      for(i = 0; i < 64; i++)
+      do
       {
-         bitA = touch_read_bit(); 
-         bitB = touch_read_bit(); 
-         if((!bitA) && (!bitB))
+         last_desc_pos = desc_marker;
+         reset_pulse();
+         touch_write_byte(0xF0);
+         for(i = 0; i < 64; i++)
          {
-            desc_marker = i;
-            if(i == last_desc_pos)
-               last_desc = !last_desc;
-            shift_right(contents, 8, last_desc);
-            touch_write_bit(last_desc);
+            bitA = touch_read_bit(); 
+            bitB = touch_read_bit(); 
+            if((!bitA) && (!bitB))
+            {
+               desc_marker = i;
+               if(i == last_desc_pos)
+                  last_desc = !last_desc;
+               shift_right(contents, 8, last_desc);
+               touch_write_bit(last_desc);
+            }
+            else
+            {
+               shift_right(contents, 8, bitA);
+               touch_write_bit(bitA);
+            }
+         }
+         if(firstrom)
+         {
+            for(i = 0; i < 8; i++)
+                  ds18b20.romcode[0][i] =contents[i];
+            firstrom = FALSE; ds18b20.mumber_of_ds18b20++;
          }
          else
          {
-            shift_right(contents, 8, bitA);
-            touch_write_bit(bitA);
+            for(i = 0; i < 8; i++)ds18b20.romcode[ds18b20.mumber_of_ds18b20][i] =contents[i];
+            ds18b20.mumber_of_ds18b20++;
+            done = TRUE;
+            for(i = 0; i < 8; i++)
+               if(ds18b20.romcode[0][i] != contents[i])
+                  done = FALSE;
          }
-      }
-      if(firstrom)
-      {
-         for(i = 0; i < 8; i++)
-               ds18b20.romcode[0][i] =contents[i];
-         firstrom = FALSE; ds18b20.mumber_of_ds18b20++;
-      }
-      else
-      {
-         for(i = 0; i < 8; i++)ds18b20.romcode[ds18b20.mumber_of_ds18b20][i] =contents[i];
-         ds18b20.mumber_of_ds18b20++;
-         done = TRUE;
-         for(i = 0; i < 8; i++)
-            if(ds18b20.romcode[0][i] != contents[i])
-               done = FALSE;
-      }
-   } while(!done);
-   ds18b20.mumber_of_ds18b20--;
-   if(ds18b20.mumber_of_ds18b20>0) return OK;
-   else return ERROR;
+      } while(!done);
+      ds18b20.mumber_of_ds18b20--;
+      return OK;
+   }
+   return ERROR;
 }
 result DS18B20_MATCH_ROM(int8 *romdata)
 {
@@ -113,9 +116,9 @@ result  DS18B20_MULTI_READ_TEMP()
 }
 result  ds18b20_read_temperature()
 {     static int1 ttsearchrom=0;
-      if(ttsearchrom==0){DS18B20_SEARCH_ROM();ttsearchrom=1;}
-      if(ds18b20.mumber_of_ds18b20==1)return DS18B20_SINGLE_READ_TEMP();
-      else                            return DS18B20_MULTI_READ_TEMP();
+      if(ttsearchrom==0){ttsearchrom=1;if(DS18B20_SEARCH_ROM()==ERROR) return ERROR;}
+      if(ds18b20.mumber_of_ds18b20==1) return  DS18B20_SINGLE_READ_TEMP();
+      else                             return  DS18B20_MULTI_READ_TEMP();     
 }
 result  ds18b20_set_resolution(int8 res_9_12)
 {

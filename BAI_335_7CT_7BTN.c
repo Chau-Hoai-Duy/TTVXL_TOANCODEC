@@ -19,7 +19,7 @@ void chop_tat_led()
 {
    led32.ledx32=~led32.ledx32;
    led32_display();
-   for(j=0;j<=2000;j++)   kiemtra_xuli_nutnhan();
+   delay_ms(500);
 }
 void sang_tat_dan_pst()
 {
